@@ -1,13 +1,4 @@
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Avatar,
-  AvatarBadge,
-  MenuGroup,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Menu, MenuButton, MenuList, MenuItem, Avatar, AvatarBadge, MenuGroup, Tooltip } from "@chakra-ui/react";
 import { FC } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Link } from "@chakra-ui/react";
@@ -18,13 +9,11 @@ import { RiShutDownLine } from "react-icons/ri";
 export const NavDropdown: FC = () => {
   return (
     <Menu>
-      <Tooltip hasArrow label="Notifications">
-        <MenuButton>
-          <Avatar src="https://bit.ly/broken-link" size="sm">
-            <AvatarBadge boxSize="1em" bg="green.500" />
-          </Avatar>
-        </MenuButton>
-      </Tooltip>
+      <MenuButton>
+        <Avatar size="sm">
+          <AvatarBadge boxSize="1em" bg="green.500" />
+        </Avatar>
+      </MenuButton>
       <MenuList>
         <MenuGroup title="John Doe">
           <MenuItem icon={<CgProfile size="18px" />}>

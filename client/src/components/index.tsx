@@ -1,2 +1,2 @@
-export { AuthInput } from "./AuthInput/AuthInput";
+export { AuthInput } from "./Auth/AuthInput";
 export { Navbar } from "./Navbar/Navbar";
