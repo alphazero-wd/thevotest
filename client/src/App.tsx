@@ -1,10 +1,7 @@
 import { FC } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Navbar } from "./components";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import NotFound from "./pages/NotFound";
-import Signup from "./pages/Signup";
+import { Home, Login, Signup, NotFound } from "./pages";
 
 const App: FC = () => {
   return (
