@@ -7,7 +7,7 @@ export const MessagesDropdown: FC = () => {
   return (
     <Menu>
       <Tooltip label="Messages" hasArrow>
-        <MenuButton icon={<BsEnvelope size="20px" />} as={IconButton} bg="white" color="gray.500" _hover={{ bg: "primary", color: "white" }}></MenuButton>
+        <MenuButton data-testid="message-dropdown-btn" icon={<BsEnvelope size="20px" />} as={IconButton} bg="white" color="gray.500" _hover={{ bg: "primary", color: "white" }}></MenuButton>
       </Tooltip>
       <MenuList>
         <MenuGroup title="Messages" textTransform="uppercase" />
@@ -17,8 +17,12 @@ export const MessagesDropdown: FC = () => {
           <Flex justifyContent="space-between" alignItems="center">
             <Avatar boxSize="2rem" borderRadius="full" src="https://friendkit.cssninja.io/assets/img/avatars/david.jpg" mr="12px" />
             <Box>
-              <Text color="gray.600">Tom</Text>
-              <Text color="gray.600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam, dolor.</Text>
+              <span>
+                <Text color="gray.600" fontSize="xs">
+                  Tom{" "}
+                </Text>
+                <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam, dolor.</Text>
+              </span>
               <Text color="gray.500" fontSize="xs">
                 30 seconds ago
               </Text>
@@ -26,20 +30,6 @@ export const MessagesDropdown: FC = () => {
             <IconButton bg="transparent" size="sm" ml="4" aria-label="Delete notification" icon={<IoCloseOutline size="20px" />} />
           </Flex>
         </MenuItem>
-        <MenuDivider />
-        <MenuItem minH="48px">
-          <Flex justifyContent="space-between" alignItems="center">
-            <Avatar boxSize="2rem" borderRadius="full" src="https://friendkit.cssninja.io/assets/img/avatars/david.jpg" mr="12px" />
-            <Box>
-              <Text color="gray.600">Harry upvoted your post </Text>
-              <Text color="gray.500" fontSize="xs">
-                30 seconds ago
-              </Text>
-            </Box>
-            <IconButton bg="transparent" size="sm" ml="4" aria-label="Delete notification" icon={<IoCloseOutline size="20px" />} />
-          </Flex>
-        </MenuItem>
-        {/* <MenuDivider /> */}
       </MenuList>
     </Menu>
   );

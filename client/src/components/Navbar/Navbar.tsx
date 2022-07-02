@@ -4,9 +4,9 @@ import { IoSearchOutline, IoSettingsOutline } from "react-icons/io5";
 import { Link as RouterLink } from "react-router-dom";
 import { Link } from "@chakra-ui/react";
 import logo from "../../images/thevotest.png";
-import { MessagesDropdown } from "./MessagesDropdown";
-import { NavDropdown } from "./NavDropdown";
-import { NotificationDropdown } from "./NotificationDropdown";
+import { MessagesDropdown } from "./Dropdown/Messages/MessagesDropdown";
+import { NavDropdown } from "./Dropdown/Nav/NavDropdown";
+import { NotificationDropdown } from "./Dropdown/Notification/NotificationDropdown";
 
 export const Navbar: FC = () => {
   const [search, setSearch] = useState("");
@@ -22,7 +22,7 @@ export const Navbar: FC = () => {
       {/* icons */}
       <ButtonGroup ml="4">
         <Link as={RouterLink} to="/user/settings">
-          <Tooltip label="Settings">
+          <Tooltip hasArrow label="Settings">
             <IconButton bg="white" color="gray.500" icon={<IoSettingsOutline size="24px" />} _hover={{ bg: "primary", color: "white" }} aria-label={"settings"} />
           </Tooltip>
         </Link>
