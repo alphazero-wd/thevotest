@@ -7,7 +7,7 @@ export const NotificationDropdown: FC = () => {
   return (
     <Menu>
       <Tooltip label="Notifications" hasArrow>
-        <MenuButton as={IconButton} icon={<VscBell size="24px" />} bg="white" color="gray.500" _hover={{ bg: "primary", color: "white" }}></MenuButton>
+        <MenuButton data-testid="notification-dropdown-btn" as={IconButton} icon={<VscBell size="24px" />} bg="white" color="gray.500" _hover={{ bg: "primary", color: "white" }}></MenuButton>
       </Tooltip>
       <MenuList>
         <MenuGroup title="Notifications" textTransform="uppercase" />
