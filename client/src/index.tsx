@@ -2,9 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ChakraProvider } from "@chakra-ui/react";
-import theme from "./utils/theme";
-import Fonts from "./utils/fonts";
+import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
+import theme from "./utils/ui/theme";
+import Fonts from "./utils/ui/fonts";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,6 +13,7 @@ root.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <Fonts />
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <App />
     </ChakraProvider>
   </React.StrictMode>

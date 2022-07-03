@@ -1,7 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
-import rehypeSanitize from "rehype-sanitize";
-import { Theme } from "../../../utils/customTypes";
 import {
   Button,
   FormControl,
@@ -14,20 +12,19 @@ import {
   Tag,
   TagCloseButton,
   TagLabel,
+  useColorMode,
 } from "@chakra-ui/react";
 import { FaAngleUp } from "react-icons/fa";
+import rehypeSanitize from "rehype-sanitize";
 
 export const CreatePost: FC = () => {
-  const [value, setValue] = useState("**I had a great time in New York.**");
-  const [colorMode, setColorMode] = useState<Theme>("light");
+  const [value, setValue] =
+    useState(`<html><script>alert("Hello world");</script></html>
+  `);
+  const { colorMode } = useColorMode();
   const [isOpen, setIsOpen] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [tagsValue, setTagsValue] = useState("");
-
-  const getThemeFromLocalStorage = (): Theme => {
-    const theme = localStorage.getItem("theme");
-    return theme && theme in ["light", "dark"] ? (theme as Theme) : "light";
-  };
 
   useEffect(() => {
     if (tagsValue.endsWith(" ")) {
@@ -37,10 +34,6 @@ export const CreatePost: FC = () => {
     }
   }, [tagsValue]);
 
-  useEffect(() => {
-    setColorMode(getThemeFromLocalStorage());
-  }, [colorMode]);
-
   return (
     <FormControl>
       <Stack
@@ -48,7 +41,9 @@ export const CreatePost: FC = () => {
         shadow="md"
         rounded="md"
         spacing="7"
-        data-color-mode={colorMode}
+        border="solid"
+        borderWidth="thin"
+        borderColor="gray.500"
       >
         <Stack direction="row" justifyContent="space-between">
           <Heading size="md">Create a Post</Heading>
@@ -80,21 +75,22 @@ export const CreatePost: FC = () => {
         {/* body markdown */}
         {isOpen && (
           <>
-            <Stack spacing="2">
+            <Stack data-color-mode={colorMode} spacing="2">
               <FormLabel fontWeight="bold">Body (Optional)</FormLabel>
               <MDEditor
                 value={value}
-                onChange={(value) => setValue(value || "")}
+                onChange={setValue as any}
+                placeholder="Write your thoughts here..."
                 previewOptions={{
                   rehypePlugins: [[rehypeSanitize]],
                 }}
-                placeholder="Write your thoughts here..."
               />
               <FormHelperText>
                 Provide additional information about the topic you want to write
                 about.
               </FormHelperText>
             </Stack>
+
             {/* tags */}
             <Stack spacing="2">
               <FormLabel fontWeight="bold">Tags</FormLabel>
