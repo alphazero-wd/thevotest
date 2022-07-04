@@ -1,4 +1,5 @@
 import {
+  Button,
   ButtonGroup,
   Flex,
   IconButton,
@@ -16,13 +17,15 @@ import { Link as RouterLink } from "react-router-dom";
 import { Link } from "@chakra-ui/react";
 import logo from "../../images/thevotest.png";
 import { MessagesDropdown } from "./Dropdown/Messages/MessagesDropdown";
-import { NavDropdown } from "./Dropdown/Nav/NavDropdown";
 import { NotificationDropdown } from "./Dropdown/Notification/NotificationDropdown";
 import { BsMoon, BsSun } from "react-icons/bs";
+import { useAppSelector } from "../../features/hooks";
+import { NavDropdown } from "./Dropdown/Nav/NavDropdown";
 
 export const Navbar: FC = () => {
   const [search, setSearch] = useState("");
   const { colorMode, toggleColorMode } = useColorMode();
+  const { access_token } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-color-mode", colorMode);
@@ -93,7 +96,37 @@ export const Navbar: FC = () => {
       </Flex>
 
       {/* user */}
-      <NavDropdown />
+      {!access_token ? (
+        <ButtonGroup spacing="3">
+          <LinkBox as={RouterLink} to="/signup">
+            <Button
+              size="sm"
+              rounded="full"
+              color="white"
+              bg="primary"
+              _hover={{ opacity: ".75" }}
+            >
+              Sign up
+            </Button>
+          </LinkBox>
+
+          <LinkBox as={RouterLink} to="/login">
+            <Button
+              size="sm"
+              rounded="full"
+              border="solid"
+              borderColor="primary"
+              color="primary"
+              _hover={{ bg: "primary", color: "white" }}
+              bg="transparent"
+            >
+              Login
+            </Button>
+          </LinkBox>
+        </ButtonGroup>
+      ) : (
+        <NavDropdown />
+      )}
     </Flex>
   );
 };

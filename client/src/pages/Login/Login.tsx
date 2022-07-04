@@ -8,13 +8,36 @@ import {
   Link,
   Text,
 } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { BiLockAlt } from "react-icons/bi";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import { BsEnvelope } from "react-icons/bs";
 import { AuthInput } from "../../components";
+import { useAppDispatch, useAppSelector } from "../../features/hooks";
+import { clearErrors, login } from "../../features/reducers/auth";
+import { LoginDto } from "../../utils/types/auth";
+import { useClearErrors } from "../../hooks/useClearErrors";
 
 export const Login: FC = () => {
+  const location = useLocation();
+  const [loginDto, setLoginDto] = useState<LoginDto>({
+    email: "",
+    password: "",
+  });
+  const { errors } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setLoginDto({ ...loginDto, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit: React.FormEventHandler = (e) => {
+    e.preventDefault();
+    dispatch(login(loginDto));
+  };
+
+  useClearErrors();
+
   return (
     <Flex w="100%" position="relative" h="100vh">
       <Flex
@@ -35,17 +58,34 @@ export const Login: FC = () => {
         alignItems="center"
       >
         <Avatar mb="5" size="xl" />
-        <FormControl width="60%">
+        <FormControl
+          width="60%"
+          isInvalid={errors.length > 0}
+          isRequired
+          onSubmit={onSubmit}
+        >
           <Stack spacing={4}>
             <AuthInput
-              Icon={BsEnvelope}
+              errorMessages={errors.filter((e) => e.includes("email"))}
+              InputIcon={BsEnvelope}
               labelText="Enter your email"
-              inputProps={{ name: "email", placeholder: "johndoe@gmail.com" }}
+              inputProps={{
+                name: "email",
+                placeholder: "johndoe@gmail.com",
+                onChange,
+                value: loginDto.email,
+              }}
             />
             <AuthInput
-              Icon={BiLockAlt}
+              errorMessages={errors.filter((e) => e.includes("password"))}
+              InputIcon={BiLockAlt}
               labelText="Enter your password"
-              inputProps={{ name: "password", placeholder: "●●●●●●" }}
+              inputProps={{
+                name: "password",
+                placeholder: "●●●●●●",
+                onChange,
+                value: loginDto.password,
+              }}
             />
 
             <Button
@@ -58,6 +98,7 @@ export const Login: FC = () => {
                 borderColor: "primary",
                 color: "primary",
               }}
+              onClick={onSubmit}
             >
               Login
             </Button>

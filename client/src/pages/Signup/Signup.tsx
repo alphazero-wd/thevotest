@@ -8,16 +8,39 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { AiOutlineUser } from "react-icons/ai";
 import { AuthInput } from "../../components";
 import { BsEnvelope } from "react-icons/bs";
 import { BiLockAlt } from "react-icons/bi";
+import { SignupDto } from "../../utils/types/auth";
+import { useAppDispatch, useAppSelector } from "../../features/hooks";
+import { signup } from "../../features/reducers/auth";
+import { useClearErrors } from "../../hooks/useClearErrors";
 
 export const Signup: FC = () => {
+  const [signupDto, setSignUpDto] = useState<SignupDto>({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const { errors } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setSignUpDto({ ...signupDto, [e.target.name]: e.target.value });
+  };
+
+  useClearErrors();
+
+  const onSubmit: React.FormEventHandler = (e) => {
+    e.preventDefault();
+    dispatch(signup(signupDto));
+  };
+
   return (
-    <Flex w="100%" position="relative" h="100vh">
+    <Flex w="100%" h="100vh">
       <Flex
         maxW="50%"
         bg="primary"
@@ -36,24 +59,46 @@ export const Signup: FC = () => {
         alignItems="center"
       >
         <Avatar mb="5" size="xl" />
-        <FormControl width="60%">
+        <FormControl onSubmit={onSubmit} width="60%" isRequired>
           <Stack spacing={4}>
             <AuthInput
-              Icon={AiOutlineUser}
+              errorMessages={errors.filter((error) =>
+                error.includes("username")
+              )}
+              InputIcon={AiOutlineUser}
               labelText="Enter your name"
-              inputProps={{ name: "username", placeholder: "Enter your name" }}
+              inputProps={{
+                name: "username",
+                placeholder: "Enter your name",
+                onChange,
+                value: signupDto.username,
+              }}
             />
             <AuthInput
-              Icon={BsEnvelope}
+              errorMessages={errors.filter((error) => error.includes("email"))}
+              InputIcon={BsEnvelope}
               labelText="Enter your email"
               helperText="We'll never share your email."
-              inputProps={{ name: "email", placeholder: "johndoe@gmail.com" }}
+              inputProps={{
+                name: "email",
+                placeholder: "johndoe@gmail.com",
+                onChange,
+                value: signupDto.email,
+              }}
             />
             <AuthInput
-              Icon={BiLockAlt}
+              errorMessages={errors.filter((error) =>
+                error.includes("password")
+              )}
+              InputIcon={BiLockAlt}
               labelText="Enter your password"
               helperText="Password must consist of more than 6 characters. A lowercase and uppercase character, a number and a special character."
-              inputProps={{ name: "password", placeholder: "●●●●●●" }}
+              inputProps={{
+                name: "password",
+                placeholder: "●●●●●●",
+                onChange,
+                value: signupDto.password,
+              }}
             />
 
             <Button
@@ -66,6 +111,7 @@ export const Signup: FC = () => {
                 borderColor: "primary",
                 color: "primary",
               }}
+              onClick={onSubmit}
             >
               Sign up
             </Button>
